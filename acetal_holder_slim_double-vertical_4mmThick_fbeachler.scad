@@ -10,7 +10,7 @@
 
 use <jonaskuehling-default.scad>
 
-acetal_dia = 17.4;
+acetal_dia = 16.1;
 acetal_length = 10.8;
 rod_dia = 8;
 

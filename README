@@ -2,7 +2,11 @@ RepRap x-ends for Misumi Leadscrew/Nut and Acetal Bushings.
 
 This is a modified version of the popular prusa/mendelmax x-ends for use with acetal bushings from SDP and Misumi leadscrew/nut combination. It's based on the 1.1 x-end version at thingiverse.com/thing:21122. The only modifications are to allow for a flanged leadscrew nut and acetal bushings instead of LM8UUs.
 
-Instructions If you're not familiar with the x-axis of a reprap, you can learn more at reprap.org/wiki/Mendel_X-axis.
+If building from SCAD sources, note the assembly module's 'mode' parameter.  All prior modes from the original 1.1 are supported.
+
+
+Part Assembly Instructions:
+If you're not familiar with the x-axis of a reprap, you can learn more at reprap.org/wiki/Mendel_X-axis.
 
 Assembly instructions for this part are like other x-ends, of which there are many variations. Refer to the excellent instrutions posted at reprap.org/wiki/LongboatPrusa#Instructions_11, note the variations in this part, and you should have enough to complete assembly. Let me know if you have questions!
 
@@ -12,5 +16,6 @@ There are two basic changes:
 
 Misumi Leadscrew: MTSKR8
 Misumi Nut: MTSFR8
+
 
 Note: The "repaired" STL file(s) corrects manifold mesh errors in the original source. All raw SCAD, STL, etc. are in the ZIP.
