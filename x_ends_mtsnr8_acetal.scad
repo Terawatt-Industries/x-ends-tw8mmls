@@ -1,5 +1,6 @@
 use <jonaskuehling-default.scad>
 include <acetal_holder_slim_double-vertical_4mmThick_fbeachler.scad>
+use <lm8uu-holder-slim_double-vertical_4mmThick_jmil.scad>
 
 // PARAMETERS
 rod_dia = 8;
@@ -66,10 +67,11 @@ nema17_hole3 = [-nema17_hole_dist/2,nema17_hole_dist/2];
 nema17_hole4 = [-nema17_hole_dist/2,-nema17_hole_dist/2];
 
 // RENDER
-// part = 0 for idler, part = 1 for motor mount
-// mode = 0 for 8mm threaded rod, 1 = misumi leadscrew 8mm, 2 = misumi leadscrew 8mm + flange nut
+// part:  0 = idler; part = 1 for motor mount
+// mode:  0 = 8mm threaded rod; 1 = misumi leadscrew 8mm; 2 = misumi leadscrew 8mm + flange nut
+// bearing:  0 = Acetal bushing mounts; 1 = LM8UU bearing mounts
 
-assembly(part = 0, mode = 2, zstop=true);
+assembly(part = 0, mode = 2, bearing = 0, zstop=true);
 
 // -------------------------------------------------
 
@@ -134,27 +136,40 @@ module zstop() {
 	}
 }
 
-
-module bearing_holder(){
+module bearing_holder(bearing) {
 	// linear bearing holder
 	translate([-zrod_leadscrew_dist/2,0,0])
 		rotate([0,0,90])
-			acetal_holder_slim_double_vertical();
+			if (bearing != 1) {
+				acetal_holder_slim_double_vertical();
+			} else {
+				lm8uu_holder_slim_double_vertical();
+			}
 }
 
-module bearing_holder_spacer(){
+module bearing_holder_spacer(bearing) {
 	render()
-	translate([-body_width/2-zrod_leadscrew_dist/2,0,body_length/2])
+	translate([-body_width/2-zrod_leadscrew_dist/2, 0, body_length/2])
 		cube([body_width,body_width+3,body_length+2], center = true);
 	difference(){
-		translate([-zrod_leadscrew_dist/2,0,-1])
+		translate([-zrod_leadscrew_dist/2, 0, -1])
 			cylinder(r=body_width/2+1.5, h=body_length+2);
-		translate([body_width/2-zrod_leadscrew_dist/2+body_width/2-0.5,0,body_length/2])
-			cube([body_width,body_width+3,body_length+2], center = true);
+		translate([body_width/2-zrod_leadscrew_dist/2+body_width/2-0.5, 0, body_length/2])
+			cube([body_width, body_width+3, body_length+2], center = true);
 	}
 }
 
-
+module bearing_holder_support(part, bearing) {
+	if (part != 0) {
+		// motor mount
+		translate([(body_width/2+1.5+wall/2)/2-zrod_leadscrew_dist/2,0,(nema17_hole_dist+(m3_screw_head_dia+2*clearance)/2+xend_body_height+m3_screw_dia/2+clearance+5)/2])
+		cube([body_width/2+1.5+wall/2,wall,nema17_hole_dist+(m3_screw_head_dia + 2*clearance)/2 + xend_body_height + m3_screw_dia/2 + clearance + 5],center=true);
+	} else {
+		// idler mount
+		translate([(body_width/2+1.5+wall/2)/2-zrod_leadscrew_dist/2,0,(xend_body_length/2+idler_elevation)/2])
+		cube([body_width/2+1.5+wall/2,wall,xend_body_length/2+idler_elevation],center=true);
+	}
+}
 
 module leadscrew_nuttrap(){
 	translate([zrod_leadscrew_dist/2,0,0])
@@ -442,54 +457,42 @@ module idler_mount(){
 // part:
 // 0 = idler
 // 1 = motor mount
-// assembly modes:
+// mode:
 // 0 = 8mm leadscrew, non-ACME
 // 1 = ACME 8mm leadscrew, misumi, w/nut + side set screws
 // 2 = ACME 8mm leadscrew, misumi, w/nut + bottom set screws
-module assembly(part = 0, mode = 1, zstop = true) {
-	difference(){
-		union(){
+module assembly(part = 0, mode = 1, bearing = 0, zstop = true) {
+	difference() {
+		union() {
 			translate([xend_body_x_offset,0,xend_body_height/2])
 				for(i=[0,1]) mirror([0,i,0]) rod_mount(idler=idler);
-	
-
-	
-			if(part != 0){
+			if (part != 0) {
 				motor_mount();
-
-				// bearing holder support
-				translate([(body_width/2+1.5+wall/2)/2-zrod_leadscrew_dist/2,0,(nema17_hole_dist+(m3_screw_head_dia+2*clearance)/2+xend_body_height+m3_screw_dia/2+clearance+5)/2])
-					cube([body_width/2+1.5+wall/2,wall,nema17_hole_dist+(m3_screw_head_dia+2*clearance)/2+xend_body_height+m3_screw_dia/2+clearance+5],center=true);
+				//bearing_holder_support(part, bearing);
 			}
-			else{
+			else {
 				idler_mount();
-
-				// bearing holder support
-				translate([(body_width/2+1.5+wall/2)/2-zrod_leadscrew_dist/2,0,(xend_body_length/2+idler_elevation)/2])
-					cube([body_width/2+1.5+wall/2,wall,xend_body_length/2+idler_elevation],center=true);
-
+				//bearing_holder_support(part, bearing);
 				if(zstop) zstop();
-			
 			}
 		}
-		bearing_holder_spacer();
+		bearing_holder_spacer(bearing);
 		if (mode == 0)
 			leadscrew_nuttrap_spacer();
 		if (mode == 1)
 			leadscrew_nuttrap_spacer_misumi();
 		if (mode == 2)
 			leadscrew_nuttrap_spacer_misumi_flange();
-
-		if(part != 0){
+		if (part != 0){
 			// nema17 screw head/ screw driver clearance
-			translate([-nema17_hole_dist/2-2,0,nema17_hole_dist/2+m3_screw_dia/2+clearance+xend_body_height]){
+			translate([-nema17_hole_dist/2-2,0,nema17_hole_dist/2+m3_screw_dia/2+clearance+xend_body_height]) {
 				translate([nema17_hole_dist/2,0,-nema17_hole_dist/2])
 					rotate([0,0,90]) teardrop(4,2*(xmotor_y_offset-6));		// extra screw driver shaft clearance 8mm
 				translate([nema17_hole_dist/2,0,-nema17_hole_dist/2])
 					rotate([0,45,0])
 						translate([-2,0,4])
 							cube([4,body_width+3+2*wall+2,8],center=true);
-				translate([-nema17_hole_dist/2,0,nema17_hole_dist/2]){
+				translate([-nema17_hole_dist/2,0,nema17_hole_dist/2]) {
 					rotate([0,0,90]) teardrop(m3_screw_head_dia/2+clearance,2*(xmotor_y_offset-6));
 					rotate([0,0,90]) teardrop(m3_screw_dia/2+clearance,2*(xmotor_y_offset+1));
 				}
@@ -498,7 +501,7 @@ module assembly(part = 0, mode = 1, zstop = true) {
 			}
 		}
 	}
-	bearing_holder();
+	bearing_holder(bearing);
 	if (mode == 0)
 		leadscrew_nuttrap();
 	if (mode == 1)
