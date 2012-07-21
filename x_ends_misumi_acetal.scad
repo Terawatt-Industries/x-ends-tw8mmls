@@ -187,7 +187,7 @@ module leadscrew_nuttrap(){
 		}
 }
 
-module leadscrew_nuttrap_misumi(){
+module leadscrew_nuttrap_misumi() {
 	translate([zrod_leadscrew_dist/2,0,0])
 		rotate([0,0,0]){
 			translate([0,0,leadscrew_nuttrap_height_misumi/2])
@@ -212,7 +212,7 @@ module leadscrew_nuttrap_misumi(){
 		}
 }
 
-module leadscrew_nuttrap_misumi_flange(){ 
+module leadscrew_nuttrap_misumi_flange() { 
 	translate([zrod_leadscrew_dist/2,0,0])
 			translate([0,0,xend_body_height/2])
 				difference(){
