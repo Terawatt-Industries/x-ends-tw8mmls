@@ -71,7 +71,7 @@ nema17_hole4 = [-nema17_hole_dist/2,-nema17_hole_dist/2];
 // mode:  0 = 8mm threaded rod; 1 = misumi leadscrew 8mm; 2 = misumi leadscrew 8mm + flange nut
 // bearing:  0 = Acetal bushing mounts; 1 = LM8UU bearing mounts
 
-assembly(part = 0, mode = 2, bearing = 0, zstop=true);
+assembly(part = 1, mode = 2, bearing = 0, zstop=true);
 
 // -------------------------------------------------
 
@@ -468,11 +468,11 @@ module assembly(part = 0, mode = 1, bearing = 0, zstop = true) {
 				for(i=[0,1]) mirror([0,i,0]) rod_mount(idler=idler);
 			if (part != 0) {
 				motor_mount();
-				//bearing_holder_support(part, bearing);
+				bearing_holder_support(part, bearing);
 			}
 			else {
 				idler_mount();
-				//bearing_holder_support(part, bearing);
+				bearing_holder_support(part, bearing);
 				if(zstop) zstop();
 			}
 		}
