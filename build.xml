@@ -1,0 +1,87 @@
+<?xml version="1.0" ?>
+<project name="x-ends-mtskr8-acetal" default="compile_scad_to_stl" xmlns:fl="antlib:it.haefelinger.flaka">
+
+    <!-- initialize some props -->
+    <property name="proj" value="x-ends-mtskr8-acetal" />
+    <tstamp>
+        <format property="DATE_STAMP" pattern="yyyy-MM-dd" />
+    	<format property="DATETIME_STAMP" pattern="yyyy-MM-dd_HHmm" />
+    </tstamp>
+
+    <!-- read props file -->
+	<condition property="isUnix" value="unix." else="">
+      <os family="unix" />
+    </condition>
+    <property file="${isUnix}settings.properties" />
+	<echo message="Load property file: ${isUnix}settings.properties" />
+    <fl:install-property-handler />
+
+	<target name="pkg_source_files">
+		<property name="tar-filename"  value="dist/${proj}-source"/>
+
+        <delete file="${tar-filename}.tar" failonerror="true" />
+        <delete file="${tar-filename}.tgz" failonerror="true" />
+        <echo message="Pkg files..." />
+        <tar destfile="${tar-filename}.tar">
+            <tarfileset dir="./src/" prefix="">
+                <exclude name="**/*.svn" />
+                <exclude name="**/*.git" />
+                <exclude name="**/*.hg" />
+                <exclude name="**/*.tar" />
+                <exclude name="**/*.tgz" />
+                <exclude name="**/*.zip" />
+            </tarfileset>
+        </tar>
+
+        <gzip src="${tar-filename}.tar" destfile="${tar-filename}.tgz" />
+        <echo message="done pkg" />
+	</target>
+
+	<target name="pkg_dist_files">
+		<property name="tar-filename"  value="dist/${proj}-dist"/>
+        
+        <delete file="${tar-filename}.tar" failonerror="true" />
+        <delete file="${tar-filename}.tgz" failonerror="true" />
+        <echo message="Pkg files..." />
+        <tar destfile="${tar-filename}.tar">
+            <tarfileset dir="./dist/" prefix="">
+                <exclude name="**/*.svn" />
+                <exclude name="**/*.git" />
+                <exclude name="**/*.hg" />
+                <exclude name="**/*.tar" />
+                <exclude name="**/*.tgz" />
+                <exclude name="**/*.zip" />
+
+                <include name="**/*.stl" />
+                <include name="**/*.png" />
+            </tarfileset>
+        </tar>
+        
+        <gzip src="${tar-filename}.tar" destfile="${tar-filename}.tgz" />
+        <echo message="done pkg" />
+	</target>
+
+    <target name="clean_dist">
+        <delete dir="./dist"/>
+        <mkdir dir="./dist"/>
+    </target>
+
+	<target name="compile_scad_to_stl">
+        <fl:let>
+            d = file('./src');
+        </fl:let>
+        <fl:for var="name" in="d.list">
+            <fl:switch value="#{name}">
+                <re expr="^(\./src)(.*)\.scad" var="m">
+                <echo message="compiling #{m} to STL :: " />
+                <exec executable="${exec.path.oscad}">
+                    <arg line="-o dist/#{m[2]}.stl" />
+                    <arg line="-D 'quality=&quot;production&quot;'" />
+                    <arg line="#{m}" />
+                </exec>
+                </re>
+            </fl:switch>
+        </fl:for>
+    </target>
+
+</project>
