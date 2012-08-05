@@ -4,7 +4,8 @@
     <!-- initialize some props -->
     <property name="proj" value="x-ends-mtskr8-acetal" />
     <property name="build-tools-dir-name" value="tools/build" />
-    <property name="source.filtered.absolute.dir" value="src" />
+    <property name="src-dir" value="${basedir}/src" />
+    <property name="dist-dir" value="${basedir}/dist" />
 
     <tstamp>
         <format property="DATE_STAMP" pattern="yyyy-MM-dd" />
@@ -18,8 +19,8 @@
     <property file="${isUnix}settings.properties" />
 	<echo message="Load property file: ${isUnix}settings.properties" />
     <fl:install-property-handler />
-    <!-- load profile file -->
-	<condition property="profile-id" value="${profileId}" else="profile-default">
+    <!-- load profile -->
+	<condition property="profile-id" value="${profileId}" else="idler-acetal">
 		<isset property="profileId" />
 	</condition>
 	<typedef name="loadBuildProfile" classname="com.longevitysoft.ant.ProfilePropertyBuilder">
@@ -28,8 +29,12 @@
 		</classpath>
 	</typedef>
 
-	<target name="pkg_source_files">
-		<property name="tar-filename"  value="dist/${proj}-source"/>
+	<target name="load-profile-properties" description="load build profiles xml as ant properties">
+		<loadBuildProfile xmlFile="${build-tools-dir-name}/build_profiles.xml" profileId="${profile-id}" />
+	</target>
+
+	<target name="pkg-source-files" description="TAR and GZIP the /src fileset">
+		<property name="tar-filename"  value="${dist-dir}/${proj}-source"/>
 
         <delete file="${tar-filename}.tar" failonerror="true" />
         <delete file="${tar-filename}.tgz" failonerror="true" />
@@ -49,14 +54,14 @@
         <echo message="done pkg" />
 	</target>
 
-	<target name="pkg_dist_files">
-		<property name="tar-filename"  value="dist/${proj}-dist"/>
+	<target name="pkg-dist-files" description="TAR and GZIP the /dist fileset">
+		<property name="tar-filename"  value="${dist-dir}/${proj}-dist"/>
         
         <delete file="${tar-filename}.tar" failonerror="true" />
         <delete file="${tar-filename}.tgz" failonerror="true" />
         <echo message="Pkg files..." />
         <tar destfile="${tar-filename}.tar">
-            <tarfileset dir="./dist/" prefix="">
+            <tarfileset dir="${dist-dir}/" prefix="">
                 <exclude name="**/*.svn" />
                 <exclude name="**/*.git" />
                 <exclude name="**/*.hg" />
@@ -73,12 +78,19 @@
         <echo message="done pkg" />
 	</target>
 
-    <target name="clean_dist">
-        <delete dir="./dist"/>
-        <mkdir dir="./dist"/>
+    <target name="zip-dist-files" depends="pkg-dist-files" description="ZIP the TAR distribution">
+		<property name="tar-filename" value="${dist-dir}/${proj}-dist"/>
+        <zip destfile="${dist-dir}/x_ends_misumi.zip">
+            <tarfileset src="${tar-filename}.tar"/>
+        </zip>
     </target>
 
-	<target name="compile-scad-to-stl">
+    <target name="clean_dist">
+        <delete dir="./${dist-dir}"/>
+        <mkdir dir="./${dist-dir}"/>
+    </target>
+
+	<target name="compile-scad-to-stl" description="compile src/*.scad -> dist/*.stl">
         <fl:let>
             d = file('./src');
         </fl:let>
@@ -87,7 +99,7 @@
                 <re expr="^(\./src)(.*)\.scad" var="m">
                 <echo message="compiling #{m} to STL :: " />
                 <exec executable="${exec.path.oscad}">
-                    <arg line="-o dist/#{m[2]}.stl" />
+                    <arg line="-o ${dist-dir}/#{m[2]}.stl" />
                     <arg line="-D 'quality=&quot;production&quot;'" />
                     <arg line="#{m}" />
                 </exec>
@@ -97,21 +109,27 @@
     </target>
 
 	<target name="--clean-filtered-scad" description="scrub filtered code files">
-		<delete file="${source.filtered.absolute.dir}/ant_assembly.scad" />
+		<delete file="${src-dir}/ant_assembly.scad" />
 	</target>
 
-	<target name="build-filtered-scad" depends="--clean-filtered-scad" description="build the filtered scad code">
-		<echo message="filtering code at ${source.filtered.absolute.dir}" />
-		<copy todir="${source.filtered.absolute.dir}" overwrite="true">
-			<fileset dir="${basedir}/tools/build">
-				<include name="ant_assembly.scad.tpl" />
-			</fileset>
-		</copy>
-        <replace file="ant_assembly.scad" token="!scad.method!" value="${scad.method}" />
-        <replace file="ant_assembly.scad" token="!scad.part!" value="${scad.part}" />
-        <replace file="${settings}.php" token="!scad.mode!" value="${scad.mode}" />
-        <replace file="${settings}.php" token="!scad.bearing!" value="${scad.bearing}" />
-        <replace file="${settings}.php" token="!scad.zstop!" value="${scad.zstop}" />
+	<target name="build-filtered-assembly-scad" depends="--clean-filtered-scad,load-profile-properties" description="build the filtered scad code to assemble multiple parts">
+        <property name="scad-assembly" value="${src-dir}/ant_assembly.scad" />
+        <property name="scad-assembly-template" value="${basedir}/tools/build/ant_assembly.scad.tpl" />
+		<echo message="filtering code for the '${profile-id}' profile ..." />
+        <copy file="${scad-assembly-template}" tofile="${scad-assembly}"/>
+        <replace file="${scad-assembly}" token="!scad.method!" value="${method}" />
+        <replace file="${scad-assembly}" token="!scad.part!" value="${part}" />
+        <replace file="${scad-assembly}" token="!scad.mode!" value="${mode}" />
+        <replace file="${scad-assembly}" token="!scad.bearing!" value="${bearing}" />
+        <replace file="${scad-assembly}" token="!scad.zstop!" value="${zstop}" />
+        <echo message="compile assembly -> STL ..." />
+        <exec executable="${exec.path.oscad}">
+            <arg line="-o ${dist-dir}/${output-file}.stl" />
+            <arg line="-D 'quality=&quot;production&quot;'" />
+            <arg line="${scad-assembly}" />
+        </exec>
+        <echo message="cleanup assembly template ..." />
+        <delete file="${scad-assembly}"/>
         <echo message="done" />
         
 	</target>
