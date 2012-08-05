@@ -10,7 +10,7 @@ Part Assembly Instructions
 --------------------------
 If you're not familiar with the x-axis of a reprap, you can learn more at reprap.org/wiki/Mendel_X-axis.
 
-Assembly instructions for this part are like other x-ends, of which there are many variations. Refer to the excellent instrutions posted at reprap.org/wiki/LongboatPrusa#Instructions_11, note the variations in this part, and you should have enough to complete assembly. Let me know if you have questions!
+Assembly instructions for this part are like other x-ends, of which there are many variations. Refer to the excellent instrutions posted at reprap.org/wiki/LongboatPrusa#Instructions_11, note the variations in this part, and you should have enough to complete assembly. Let us know if you have questions!
 
 There are two basic changes:
 1) Substitutes a 8mm Misumi leadscrew for oft-used cheap drill rod. Uses a flanged nut that's bolted through with two bolts.
