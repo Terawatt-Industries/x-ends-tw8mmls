@@ -1,8 +1,11 @@
 <?xml version="1.0" ?>
-<project name="x-ends-mtskr8-acetal" default="compile_scad_to_stl" xmlns:fl="antlib:it.haefelinger.flaka">
+<project name="x-ends-mtskr8-acetal" default="compile-scad-to-stl" xmlns:fl="antlib:it.haefelinger.flaka">
 
     <!-- initialize some props -->
     <property name="proj" value="x-ends-mtskr8-acetal" />
+    <property name="build-tools-dir-name" value="tools/build" />
+    <property name="source.filtered.absolute.dir" value="src" />
+
     <tstamp>
         <format property="DATE_STAMP" pattern="yyyy-MM-dd" />
     	<format property="DATETIME_STAMP" pattern="yyyy-MM-dd_HHmm" />
@@ -15,6 +18,15 @@
     <property file="${isUnix}settings.properties" />
 	<echo message="Load property file: ${isUnix}settings.properties" />
     <fl:install-property-handler />
+    <!-- load profile file -->
+	<condition property="profile-id" value="${profileId}" else="profile-default">
+		<isset property="profileId" />
+	</condition>
+	<typedef name="loadBuildProfile" classname="com.longevitysoft.ant.ProfilePropertyBuilder">
+		<classpath>
+			<pathelement location="${basedir}/${build-tools-dir-name}/lsoft-ant-tasks-0.1-20120804.jar" />
+		</classpath>
+	</typedef>
 
 	<target name="pkg_source_files">
 		<property name="tar-filename"  value="dist/${proj}-source"/>
@@ -66,7 +78,7 @@
         <mkdir dir="./dist"/>
     </target>
 
-	<target name="compile_scad_to_stl">
+	<target name="compile-scad-to-stl">
         <fl:let>
             d = file('./src');
         </fl:let>
@@ -83,5 +95,25 @@
             </fl:switch>
         </fl:for>
     </target>
+
+	<target name="--clean-filtered-scad" description="scrub filtered code files">
+		<delete file="${source.filtered.absolute.dir}/ant_assembly.scad" />
+	</target>
+
+	<target name="build-filtered-scad" depends="--clean-filtered-scad" description="build the filtered scad code">
+		<echo message="filtering code at ${source.filtered.absolute.dir}" />
+		<copy todir="${source.filtered.absolute.dir}" overwrite="true">
+			<fileset dir="${basedir}/tools/build">
+				<include name="ant_assembly.scad.tpl" />
+			</fileset>
+		</copy>
+        <replace file="ant_assembly.scad" token="!scad.method!" value="${scad.method}" />
+        <replace file="ant_assembly.scad" token="!scad.part!" value="${scad.part}" />
+        <replace file="${settings}.php" token="!scad.mode!" value="${scad.mode}" />
+        <replace file="${settings}.php" token="!scad.bearing!" value="${scad.bearing}" />
+        <replace file="${settings}.php" token="!scad.zstop!" value="${scad.zstop}" />
+        <echo message="done" />
+        
+	</target>
 
 </project>
