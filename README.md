@@ -39,7 +39,7 @@ To list the targets provided by this build.xml enter "ant -p" from a command lin
 
 Building A Single Part
 ----------------------
-To build the SCAD source files for the first time you must edit unix.settings.properties (or the windows analog).  Set the path to the executable for openscad, for example (on OS X):
+To build the SCAD source files for the first time you must edit unix.settings.properties (or windows.settings.properties).  Set the path to the executable for openscad, for example (on OS X):
 exec.path.oscad=/Applications/OpenSCAD.app/Contents/MacOS/OpenSCAD
 
 Once you have unix.settings.properties properly setup run the following from a Unix or Windows command line to compile the SCAD source files:
