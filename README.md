@@ -32,25 +32,26 @@ Configuring ANT
 The build.xml in the project depends on the Flaka ANT add-on.  To install Flaka in your environment, enter the following from a command line interface (unix):
 cp [path-to-this-project]/tools/build/ant-flaka-1.02.02.jar [path-to-ANT-installation]/lib
 
-In other words, Flaka installs like any other ANT add-on.  Don't forget about the ANT "-diagnostics" command line switch, it's your friend.
+In other words, Flaka installs like any other ANT add-on.  If you have trouble installing the library, or don't know where ANT is installed, try typing "ant -diagnostics" from a command line.
 
 Targets:
 To list the targets provided by this build.xml enter "ant -p" from a command line interface.
 
-Building A Single Part
-----------------------
+Building A Single Part Using ANT
+--------------------------------
 To build the SCAD source files for the first time you must edit unix.settings.properties (or windows.settings.properties).  Set the path to the executable for openscad, for example (on OS X):
 exec.path.oscad=/Applications/OpenSCAD.app/Contents/MacOS/OpenSCAD
 
-Once you have unix.settings.properties properly setup run the following from a Unix or Windows command line to compile the SCAD source files:
+Once you've edited unix.settings.properties run the following from a Unix or Windows command line to compile the SCAD source files:
 ant
 
-Building Multiple Parts
------------------------
+Building Multiple Parts Using ANT
+---------------------------------
 Enter the following from a Unix or Windows command line to build 4 STL files.
 cd [project-directory]
 ./tools/build/build-all-parts.sh
 
-NOTE: To change the ZSTOP option (set to true by default), edit tools/build/ant_assembly.scad.tpl.
+Parameters:
+To change the ZSTOP option (set to true by default), edit tools/build/ant_assembly.scad.tpl.  All other configuration 
 
 We'll port the UNIX SH script to Windows BAT very soon - if you have one already please send it over!
