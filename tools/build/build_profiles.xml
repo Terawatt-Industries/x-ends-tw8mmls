@@ -1,4 +1,4 @@
-﻿<profiles>
+<profiles>
 	<!-- 
      4 profiles, 2 for idler/mount, 2 for type of leadscrew
      // RENDER
@@ -16,7 +16,7 @@
 			<part>0</part>	
 			<mode>0</mode>
             <bearing>0</bearing>
-            <zstop>1</zstop>
+            <zstop>true</zstop>
 		</properties>
 	</profile> -->
 	<profile>
@@ -61,6 +61,50 @@
 			<mode>2</mode>
             <bearing>1</bearing>
             <zstop>true</zstop>
+		</properties>
+	</profile>
+	<profile>
+		<id>idler-acetal-nozstop</id>
+		<properties>
+			<output-file>x_ends_idler_misumi_acetal_nozstop</output-file>
+			<method>assembly</method>				
+			<part>0</part>	
+			<mode>2</mode>
+            <bearing>0</bearing>
+            <zstop>false</zstop>
+		</properties>
+	</profile>
+	<profile>
+		<id>motormount-acetal-nozstop</id>
+		<properties>
+			<output-file>x_ends_motormount_misumi_acetal_nozstop</output-file>
+			<method>assembly</method>				
+			<part>1</part>	
+			<mode>2</mode>
+            <bearing>0</bearing>
+            <zstop>false</zstop>
+		</properties>
+	</profile>
+	<profile>
+		<id>idler-lm8uu-nozstop</id>
+		<properties>
+			<output-file>x_ends_idler_misumi_lm8uu_nozstop</output-file>
+			<method>assembly</method>				
+			<part>0</part>	
+			<mode>2</mode>
+            <bearing>1</bearing>
+            <zstop>false</zstop>
+		</properties>
+	</profile>
+	<profile>
+		<id>motormount-lm8uu-nozstop</id>
+		<properties>
+			<output-file>x_ends_motormount_misumi_lm8uu_nozstop</output-file>
+			<method>assembly</method>				
+			<part>1</part>	
+			<mode>2</mode>
+            <bearing>1</bearing>
+            <zstop> false </zstop>
 		</properties>
 	</profile>
 </profiles>
