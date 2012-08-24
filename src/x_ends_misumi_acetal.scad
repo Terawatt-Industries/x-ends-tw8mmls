@@ -39,8 +39,9 @@ leadscrew_nut_height = 6.8;
 anti_backlash_spring_space = 25;
 
 leadscrew_dia_misumi = 8;
-leadscrew_nut_wrench_size_misumi = 15+0.35;		// plus some extra clearance
+leadscrew_nut_wrench_size_misumi = 15 + 0.35;		// plus some extra clearance
 leadscrew_nut_height_misumi = 20;
+leadscrew_mount_spacing = 16;
 
 nema17_width = 43;
 nema17_hole_dist = 31;
@@ -213,18 +214,33 @@ module leadscrew_nuttrap_misumi() {
 }
 
 module leadscrew_nuttrap_misumi_flange() { 
-	translate([zrod_leadscrew_dist/2,0,0])
-			translate([0,0,xend_body_height/2])
-				difference(){
-					nut_trap_misumi(leadscrew_nut_wrench_size_misumi+2*wall,xend_body_height);
-					nut_trap_misumi(leadscrew_nut_wrench_size_misumi,leadscrew_nuttrap_height_misumi+2);
-				translate([0, -leadscrew_dia_misumi - wall - 0.25, xend_body_height / 2 - 1]) {
-				nut_trap(m3_nut_wrench_size,m3_nut_height + 1);
-				nut_trap(m3_screw_dia,m3_nut_height + 35); }
-				translate([0, leadscrew_dia_misumi + wall + 0.25, xend_body_height / 2 - 1]) {
-				nut_trap(m3_nut_wrench_size,m3_nut_height + 1);
-				nut_trap(m3_screw_dia,m3_nut_height + 35); }
-				}
+  translate([zrod_leadscrew_dist/2,0,0])
+    translate([0,0,xend_body_height/2])
+      difference(){
+        // offset lip
+        translate([2.5, 0, 0]) nut_trap_misumi(leadscrew_nut_wrench_size_misumi + 4 * wall,xend_body_height);
+        nut_trap_misumi(leadscrew_nut_wrench_size_misumi,leadscrew_nuttrap_height_misumi+2);
+		//set-screws for ls-nut
+        translate([0, -leadscrew_mount_spacing / 2 - wall - 0.25, xend_body_height / 2 - 1]) {
+          nut_trap(m3_nut_wrench_size,m3_nut_height + 1);
+          nut_trap(m3_screw_dia,m3_nut_height + 35);
+        }
+        translate([0, leadscrew_mount_spacing / 2 + wall + 0.25, xend_body_height / 2 - 1]) {
+          nut_trap(m3_nut_wrench_size,m3_nut_height + 1);
+          nut_trap(m3_screw_dia,m3_nut_height + 35);
+        }
+        rotate([0, 0, 90]) {
+        translate([0, -leadscrew_mount_spacing / 2 - wall - 0.25, xend_body_height / 2 - 1]) {
+          nut_trap(m3_nut_wrench_size,m3_nut_height + 1);
+          nut_trap(m3_screw_dia,m3_nut_height + 35);
+        }
+        translate([0, leadscrew_mount_spacing / 2 + wall + 0.25, xend_body_height / 2 - 1]) {
+          nut_trap(m3_nut_wrench_size,m3_nut_height + 1);
+          nut_trap(m3_screw_dia,m3_nut_height + 35);
+        }
+
+}
+     }
 }
 
 module leadscrew_nuttrap_spacer(){
@@ -245,17 +261,31 @@ module leadscrew_nuttrap_spacer_misumi_flange(){
 		//set-screws for ls-nut
 		// captive nut cutout and room for thread-thru
 		rotate([0,0,45]) {
-			translate([-leadscrew_dia_misumi, -leadscrew_dia_misumi,0])
-			rotate([0,0,12.5]) {
+			translate([-leadscrew_mount_spacing / 2, -leadscrew_mount_spacing / 2, 0])
+			rotate([0, 0, 12.5]) {
 				translate([0, 0, -m3_nut_height - 2])
-				nut_trap(m3_nut_wrench_size,m3_nut_height+1);
-				nut_trap(m3_screw_dia,m3_nut_height + 35);
+				nut_trap(m3_nut_wrench_size, m3_nut_height+1);
+				nut_trap(m3_screw_dia, m3_nut_height + 35);
 			}
-			translate([leadscrew_dia_misumi,leadscrew_dia_misumi,0])
-			rotate([0,0,12.5]) {
+			translate([leadscrew_mount_spacing / 2, leadscrew_mount_spacing / 2, 0])
+			rotate([0, 0, 12.5]) {
 				translate([0, 0, -m3_nut_height - 2])
-				nut_trap(m3_nut_wrench_size,m3_nut_height+1);
-				nut_trap(m3_screw_dia,m3_nut_height + 35);
+				nut_trap(m3_nut_wrench_size, m3_nut_height+1);
+				nut_trap(m3_screw_dia, m3_nut_height + 35);
+			}
+		}
+		rotate([0,0,135]) {
+			translate([-leadscrew_mount_spacing / 2, -leadscrew_mount_spacing / 2, 0])
+			rotate([0, 0, 12.5]) {
+				translate([0, 0, -m3_nut_height - 2])
+				nut_trap(m3_nut_wrench_size, m3_nut_height+1);
+				nut_trap(m3_screw_dia, m3_nut_height + 35);
+			}
+			translate([leadscrew_mount_spacing / 2, leadscrew_mount_spacing / 2, 0])
+			rotate([0, 0, 12.5]) {
+				translate([0, 0, -m3_nut_height - 2])
+				nut_trap(m3_nut_wrench_size, m3_nut_height+1);
+				nut_trap(m3_screw_dia, m3_nut_height + 35);
 			}
 		}
 	}
@@ -271,11 +301,11 @@ module motor_mount(){
 						rotate([90,0,0])
 							linear_extrude(height=10){
 								barbell(nema17_hole3,nema17_hole4,
-										(nema17_width-nema17_hole_dist)/2,(nema17_width-nema17_hole_dist)/2,
-										20,60);
+										(nema17_width-nema17_hole_dist)/2 + 1,(nema17_width-nema17_hole_dist)/2 + 1,
+										16,60);
 								barbell(nema17_hole4,nema17_hole2,
-										(nema17_width-nema17_hole_dist)/2,(nema17_width-nema17_hole_dist)/2,
-										20,60);
+										(nema17_width-nema17_hole_dist)/2 + 1,(nema17_width-nema17_hole_dist)/2,
+										16,60);
 							}
 		
 						// nema17 mount bottom support
