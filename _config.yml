@@ -15,7 +15,7 @@ githubiverse:
     ## Github project parameters.
     github:
         base: https://github.com/
-        user: Terawatt Industries
+        user: Terawatt-Industries
         repository: x-ends-tw8mmls
         branch: master
 
