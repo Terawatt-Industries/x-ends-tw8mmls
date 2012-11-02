@@ -1,5 +1,5 @@
-RepRap x-ends for Terawatt Industries Leadscrew/Nut and Acetal Bushings
-----------------------------------------------------------
+RepRap X-Ends for Terawatt Industries Leadscrew/Nut and LM8UU Bearings or Acetal Bushings
+-----------------------------------------------------------------------------------------
 
 This is a modified version of the popular prusa/mendelmax x-ends for use with acetal bushings from SDP and Terawatt Industries leadscrew/nut combination. It's based on the 1.1 x-end version at thingiverse.com/thing:21122. The only modifications are to allow for a flanged leadscrew nut and acetal bushings instead of LM8UUs.
 
@@ -51,3 +51,4 @@ Parameters:
 To change the ZSTOP option (set to true by default), edit tools/build/ant_assembly.scad.tpl.  All other configuration 
 
 We'll port the UNIX SH script to Windows BAT very soon - if you have one already please send it over!
+=======
