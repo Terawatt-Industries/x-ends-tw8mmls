@@ -1,8 +1,8 @@
 <?xml version="1.0" ?>
 <!-- OpenSCAD ANT Build by Free Beachler, Longevity Software DBA Terawatt Industries is licensed under a Creative Commons Attribution-NonCommercial-ShareAlike 3.0 Unported License. -->
-<project name="x-ends-mtskr8-acetal" default="compile-scad-to-stl" xmlns:fl="antlib:it.haefelinger.flaka">
+<project name="x-ends-8mmls-acetal" default="compile-scad-to-stl" xmlns:fl="antlib:it.haefelinger.flaka">
     <!-- initialize some props -->
-    <property name="proj" value="x-ends-mtskr8-acetal" />
+    <property name="proj" value="x-ends-8mmls-acetal" />
     <property name="build-tools-dir-name" value="tools/build" />
     <property name="src-dir" value="${basedir}/src" />
     <property name="dist-dir" value="${basedir}/dist" />
@@ -80,7 +80,7 @@
 
     <target name="zip-dist-files" depends="pkg-dist-files" description="ZIP the TAR distribution">
 		<property name="tar-filename" value="${dist-dir}/${proj}-dist"/>
-        <zip destfile="${dist-dir}/x_ends_misumi.zip">
+        <zip destfile="${dist-dir}/x_ends_terawatt.zip">
             <tarfileset src="${tar-filename}.tar"/>
         </zip>
     </target>
