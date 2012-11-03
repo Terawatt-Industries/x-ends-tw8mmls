@@ -24,8 +24,8 @@ a:hover {
 .container {
 	background-color: transparent;
 	background-image: url("../../img/terawatt/tw_logo_watermark_1035x1035.png");
-	background-position: 470px 370px;
-	background-repeat: no-repeat;
+	background-image-position: 470px 370px;
+	background-image-repeat: no-repeat;
 }
 
 #stlviewer {
