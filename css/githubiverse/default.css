@@ -38,10 +38,9 @@ a:hover {
 }
 
 header h1 {
-	background: transparent url("../../img/terawatt/tw_logo_cutstar_fc_180.png");
+	background: transparent url("../../img/terawatt/tw_logo_fc_150x91.png");
 	background-repeat:no-repeat;
-	-webkit-background-origin:border; /* Safari */
-	background-origin:border;
+	background-position: 0px -50px;
 	padding-left: 75px;
 }
 
