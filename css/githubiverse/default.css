@@ -29,6 +29,14 @@ a:hover {
 	background-position:  470px 370px;
 }
 
+#tags a:hover {
+	text-decoration: none;
+}
+
+#tags a:hover .label, #tags a:hover .badge {
+  	background-color: #00a5d5;
+}
+
 #stlviewer {
 	width: 100%;
 	min-height: 300px;
