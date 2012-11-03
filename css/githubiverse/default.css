@@ -37,11 +37,12 @@ a:hover {
   	background-color: #00a5d5;
 }
 
-.page-header {
+header h1 {
 	background: transparent url("../../img/terawatt/tw_logo_fc_150x91.png");
 	background-repeat:no-repeat;
 	-webkit-background-origin:border; /* Safari */
 	background-origin:border;
+	padding-left: 75px;
 }
 
 #stlviewer {
