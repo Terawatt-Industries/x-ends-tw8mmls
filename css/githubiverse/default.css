@@ -42,7 +42,8 @@ header h1 {
 	background-repeat:no-repeat;
 	background-position: 0 -20px;
 	padding-left: 162px;
-	height : 65px;
+	height : 55px;
+	overflow: hidden;
 }
 
 #stlviewer {
