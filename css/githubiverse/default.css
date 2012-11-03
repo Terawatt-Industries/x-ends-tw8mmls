@@ -44,10 +44,11 @@ header h1 {
 	padding-left: 162px;
 	height : 55px;
 	overflow: hidden;
+	margin-bottom: 0;
 }
 
 header hr {
-  margin: 3px 0 7px 0;
+  margin: 3px 0 7px 10px;
 }
 
 #stlviewer {
