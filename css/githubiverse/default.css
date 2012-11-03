@@ -7,9 +7,6 @@ body {
 	background: -o-linear-gradient(left,  #e3edf9 0%,#343434 15%,#272727 85%,#343434 100%); /* Opera 11.10+ */
 	background: -ms-linear-gradient(left,  #e3edf9 0%,#343434 15%,#272727 85%,#343434 100%); /* IE10+ */
 	background: linear-gradient(to right,  #e3edf9 0%,#343434 15%,#272727 85%,#343434 100%); /* W3C */
-	background-image: ;
-	background-position: 470px 370px;
-	background-repeat: no-repeat;
 	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#343434', endColorstr='#343434',GradientType=1 ); /* IE6-9 */
 }
 
