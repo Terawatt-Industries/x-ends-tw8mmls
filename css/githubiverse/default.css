@@ -40,7 +40,7 @@ a:hover {
 header h1 {
 	background: transparent url("../../img/terawatt/tw_logo_fc_150x91.png");
 	background-repeat:no-repeat;
-	background-position: 0 0;
+	background-position: 0 -25px;
 	padding-left: 75px;
 }
 
