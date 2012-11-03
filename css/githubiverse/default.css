@@ -19,6 +19,10 @@ a:hover {
 }
 
 .container {
+	background: transparent url("../../img/terawatt/tw_logo_watermark_1035x1035.png");
+	background-repeat:no-repeat;
+	-webkit-background-origin:content-box; /* Safari */
+	background-origin:content-box;
 }
 
 #stlviewer {
