@@ -775,8 +775,8 @@ dd {
 hr {
   margin: 20px 0;
   border: 0;
-  border-top: 1px solid #eeeeee;
-  border-bottom: 1px solid #ffffff;
+  border-top: 1px solid #ccc;
+  border-bottom: 1px solid #ffee00;
 }
 
 abbr[title] {
@@ -5281,7 +5281,7 @@ a.thumbnail:hover {
   text-shadow: 0 -1px 0 rgba(0, 165, 213, 0.25);
   white-space: nowrap;
   vertical-align: baseline;
-  background-color: #ccc;
+  background-color: #00a5d5;
 }
 
 .label {
