@@ -42,9 +42,9 @@ header h1 {
 	background-repeat:no-repeat;
 	background-position: 0 -20px;
 	padding-left: 162px;
-	height : 55px;
+	height : 45px;
 	overflow: hidden;
-	margin-bottom: 0;
+	margin: 10px 0 0 0;
 }
 
 header hr {
