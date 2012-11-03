@@ -46,6 +46,10 @@ header h1 {
 	overflow: hidden;
 }
 
+header hr {
+  margin: 3px 0 7px 0;
+}
+
 #stlviewer {
 	width: 100%;
 	min-height: 300px;
