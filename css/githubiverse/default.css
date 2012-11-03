@@ -7,10 +7,10 @@ body {
 	background: -o-linear-gradient(left,  #e3edf9 0%,#272727 15%,#000000 85%,#272727 100%); /* Opera 11.10+ */
 	background: -ms-linear-gradient(left,  #e3edf9 0%,#272727 15%,#000000 85%,#272727 100%); /* IE10+ */
 	background: linear-gradient(to right,  #e3edf9 0%,#272727 15%,#000000 85%,#272727 100%); /* W3C */
-	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#272727', endColorstr='#272727',GradientType=1 ); /* IE6-9 */
 	background-image: url("../../img/terawatt/tw_logo_watermark_1035x1035.png");
-	background-position: 420px 420px;
+	background-position: 470px 370px;
 	background-repeat: no-repeat;
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#272727', endColorstr='#272727',GradientType=1 ); /* IE6-9 */
 }
 
 a {
