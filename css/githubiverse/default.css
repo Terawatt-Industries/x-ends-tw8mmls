@@ -37,7 +37,7 @@ a:hover {
   	background-color: #00a5d5;
 }
 
-#page-header {
+.page-header {
 	background: transparent url("../../img/terawatt/tw_logo_fc_150x91.png");
 	background-repeat:no-repeat;
 	-webkit-background-origin:border; /* Safari */
